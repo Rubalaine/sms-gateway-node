@@ -1,0 +1,202 @@
+[
+    {
+        "id": 1,
+        "firstName": "João",
+        "lastName": "Silva",
+        "dob": "1980-01-01",
+        "gender": "Male",
+        "address": "123 Rua Principal, Maputo",
+        "phone": "861970167",
+        "email": "joao.silva@example.com"
+    },
+    {
+        "id": 2,
+        "firstName": "Maria",
+        "lastName": "Fernandes",
+        "dob": "1985-02-02",
+        "gender": "Female",
+        "address": "456 Rua das Flores, Beira",
+        "phone": "861970167",
+        "email": "maria.fernandes@example.com"
+    },
+    {
+        "id": 3,
+        "firstName": "Carlos",
+        "lastName": "Machava",
+        "dob": "1986-03-03",
+        "gender": "Male",
+        "address": "789 Avenida da Independência, Nampula",
+        "phone": "861970167",
+        "email": "carlos.machava@example.com"
+    },
+    {
+        "id": 4,
+        "firstName": "Ana",
+        "lastName": "Goncalves",
+        "dob": "1987-04-04",
+        "gender": "Female",
+        "address": "321 Rua dos Coqueiros, Pemba",
+        "phone": "861970167",
+        "email": "ana.goncalves@example.com"
+    },
+    {
+        "id": 5,
+        "firstName": "Pedro",
+        "lastName": "Munguambe",
+        "dob": "1988-05-05",
+        "gender": "Male",
+        "address": "654 Rua da Paz, Lichinga",
+        "phone": "861970167",
+        "email": "pedro.munguambe@example.com"
+    },
+    {
+        "id": 6,
+        "firstName": "Isabel",
+        "lastName": "Chissano",
+        "dob": "1989-06-06",
+        "gender": "Female",
+        "address": "987 Rua da Liberdade, Quelimane",
+        "phone": "861970167",
+        "email": "isabel.chissano@example.com"
+    },
+    {
+        "id": 7,
+        "firstName": "Francisco",
+        "lastName": "Nhantumbo",
+        "dob": "1990-07-07",
+        "gender": "Male",
+        "address": "147 Rua dos Trabalhadores, Tete",
+        "phone": "861970167",
+        "email": "francisco.nhantumbo@example.com"
+    },
+    {
+        "id": 8,
+        "firstName": "Rosa",
+        "lastName": "Machel",
+        "dob": "1991-08-08",
+        "gender": "Female",
+        "address": "258 Rua dos Heróis, Chimoio",
+        "phone": "861970167",
+        "email": "rosa.machel@example.com"
+    },
+    {
+        "id": 9,
+        "firstName": "Manuel",
+        "lastName": "Dos Santos",
+        "dob": "1992-09-09",
+        "gender": "Male",
+        "address": "369 Rua da Unidade, Xai-Xai",
+        "phone": "861970167",
+        "email": "manuel.dossantos@example.com"
+    },
+    {
+        "id": 10,
+        "firstName": "Teresa",
+        "lastName": "Mandlate",
+        "dob": "1993-10-10",
+        "gender": "Female",
+        "address": "741 Rua da Revolução, Inhambane",
+        "phone": "861970167",
+        "email": "teresa.mandlate@example.com"
+    },
+    {
+        "id": 11,
+        "firstName": "António",
+        "lastName": "Matsinhe",
+        "dob": "1994-11-11",
+        "gender": "Male",
+        "address": "852 Rua da Vitória, Vilankulo",
+        "phone": "861970167",
+        "email": "antonio.matsinhe@example.com"
+    },
+    {
+        "id": 12,
+        "firstName": "Helena",
+        "lastName": "Muchanga",
+        "dob": "1995-12-12",
+        "gender": "Female",
+        "address": "963 Rua da Solidariedade, Moatize",
+        "phone": "861970167",
+        "email": "helena.muchanga@example.com"
+    },
+    {
+        "id": 13,
+        "firstName": "Jorge",
+        "lastName": "Quembo",
+        "dob": "1996-01-13",
+        "gender": "Male",
+        "address": "147 Rua da Esperança, Angoche",
+        "phone": "861970167",
+        "email": "jorge.quembo@example.com"
+    },
+    {
+        "id": 14,
+        "firstName": "Lúcia",
+        "lastName": "Mabunda",
+        "dob": "1997-02-14",
+        "gender": "Female",
+        "address": "258 Rua da Amizade, Manica",
+        "phone": "861970167",
+        "email": "lucia.mabunda@example.com"
+    },
+    {
+        "id": 15,
+        "firstName": "Rui",
+        "lastName": "Chamanga",
+        "dob": "1998-03-15",
+        "gender": "Male",
+        "address": "369 Rua da Fraternidade, Mocuba",
+        "phone": "861970167",
+        "email": "rui.chamanga@example.com"
+    },
+    {
+        "id": 16,
+        "firstName": "Sofia",
+        "lastName": "Mucavele",
+        "dob": "1999-04-16",
+        "gender": "Female",
+        "address": "741 Rua da Igualdade, Chokwe",
+        "phone": "861970167",
+        "email": "sofia.mucavele@example.com"
+    },
+    {
+        "id": 17,
+        "firstName": "Miguel",
+        "lastName": "Nhaca",
+        "dob": "2000-05-17",
+        "gender": "Male",
+        "address": "852 Rua da Justiça, Cuamba",
+        "phone": "861970167",
+        "email": "miguel.nhaca@example.com"
+    },
+    {
+        "id": 18,
+        "firstName": "Catarina",
+        "lastName": "Mandlaze",
+        "dob": "2001-06-18",
+        "gender": "Female",
+        "address": "963 Rua da Paz, Montepuez",
+        "phone": "861970167",
+        "email": "catarina.mandlaze@example.com"
+    },
+    {
+        "id": 19,
+        "firstName": "Alberto",
+        "lastName": "Munguambe",
+        "dob": "2002-07-19",
+        "gender": "Male",
+        "address": "147 Rua da Liberdade, Marracuene",
+        "phone": "861970167",
+        "email": "alberto.munguambe@example.com"
+    },
+    {
+        "id": 20,
+        "firstName": "Marta",
+        "lastName": "Chavango",
+        "dob": "2003-08-20",
+        "gender": "Female",
+        "address": "258 Rua da Unidade, Moma",
+        "phone": "861970167",
+        "email": "marta.chavango@example.com"
+    }
+]
