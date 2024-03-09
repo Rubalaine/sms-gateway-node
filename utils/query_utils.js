@@ -45,7 +45,7 @@ const createAppointmentModel = async () =>{
             table.increments('id');
             table.integer('patientId').unsigned().notNullable().references('id').inTable('patients');
             table.integer('doctorId').unsigned().notNullable().references('id').inTable('doctors');
-            table.dateTime('appointmentDate').notNullable();
+            table.date('appointmentDate').notNullable();
             table.string('reason', 100);
             table.enu('status', ['PENDING', 'COMPLETED', 'CANCELLED'])
             table.timestamps();

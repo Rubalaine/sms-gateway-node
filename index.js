@@ -2,7 +2,7 @@ import 'dotenv/config.js';
 import fs from 'fs';
 import path from 'path';
 import cron from 'node-cron';
-import {getPatientsWithPendingAppointmentsInDate,  getAllPatients} from './services/patient-service.js';
+import {getPatientsWithPendingAppointmentsInDate, getPatientsWithAppointmentsInDate} from './services/patient-service.js';
 import { termuxSmsGen, termuxSmsSend } from './utils/termux-utils.js';
 import { registerError } from './error-service.js';
 
@@ -24,7 +24,7 @@ cron.schedule(config.delayed_appointment.send_at_cron, async () => {
     try {
         const alertDate = new Date(TODAY)
         alertDate.setDate(TODAY.getDate() + config.delayed_appointment.look_for_days);
-        const patients = await getAllPatients();
+        const patients = await getPatientsWithPendingAppointmentsInDate(alertDate);
         console.log(patients.length);
         if(patients.length){
             console.log(`[${new Date().toISOString()}] Sending delayed appointment SMS`);
