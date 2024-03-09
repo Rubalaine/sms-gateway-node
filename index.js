@@ -24,7 +24,7 @@ cron.schedule(config.delayed_appointment.send_at_cron, async () => {
     try {
         const alertDate = new Date(TODAY)
         alertDate.setDate(TODAY.getDate() + config.delayed_appointment.look_for_days);
-        const patients = await getAllPatients(alertDate);
+        const patients = await getAllPatients();
         console.log(patients.length);
         if(patients.length){
             console.log(`[${new Date().toISOString()}] Sending delayed appointment SMS`);
