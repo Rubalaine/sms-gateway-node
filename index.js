@@ -20,12 +20,13 @@ try {
 }
 
 // delayed appointments
-cron.schedule(config.delayed_appointment.look_for_cron, async () => {
+cron.schedule(config.delayed_appointment.send_at_cron, async () => {
     try {
         const alertDate = new Date(TODAY)
         alertDate.setDate(TODAY.getDate() + config.delayed_appointment.look_for_days);
         const patients = await getPatientsWithPendingAppointmentsInDate(alertDate);
         if(patients.length){
+            console.log(`[${new Date().toISOString()}] Sending delayed appointment SMS`);
             const message = config.delayed_appointment.alert_message;
             const numbers = patients.map(patient => patient.phoneNumber);
             const content = termuxSmsGen(message, numbers);
@@ -43,6 +44,7 @@ cron.schedule(config.scheduled_appointment.send_at_cron, async () => {
         alertDate.setDate(TODAY.getDate() + config.scheduled_appointment.look_for_days);
         const patients = await getPatientsWithPendingAppointmentsInDate(alertDate);
         if(patients.length){
+            console.log(`[${new Date().toISOString()}] Sending scheduled appointment SMS`);
             const message = config.scheduled_appointment.alert_message;
             const numbers = patients.map(patient => patient.phoneNumber);
             const content = termuxSmsGen(message, numbers);
