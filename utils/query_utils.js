@@ -4,7 +4,7 @@ import {registerError} from '../error-service.js';
 
 const createPatientModel = async () => {
     try {
-        await qb.schema.createTable('patients', (table) => {
+        await qb.schema.createTableIfNotExists('patients', (table) => {
             table.increments('id');
             table.string('firstName', 50).notNullable();
             table.string('lastName', 50);
@@ -23,7 +23,7 @@ const createPatientModel = async () => {
 
 const createDoctorModel = async () => {
     try {
-        await qb.schema.createTable('doctors', (table) => {
+        await qb.schema.createTableIfNotExists('doctors', (table) => {
             table.increments('id');
             table.string('firstName', 50).notNullable();
             table.string('lastName', 50);
@@ -41,7 +41,7 @@ const createDoctorModel = async () => {
 
 const createAppointmentModel = async () =>{
     try {
-        await qb.schema.createTable('appointments', (table) => {
+        await qb.schema.createTableIfNotExists('appointments', (table) => {
             table.increments('id');
             table.integer('patientId').unsigned().notNullable().references('id').inTable('patients');
             table.integer('doctorId').unsigned().notNullable().references('id').inTable('doctors');
@@ -52,6 +52,22 @@ const createAppointmentModel = async () =>{
         })
     } catch (error) {
         registerError('Error creating appointment model', error);
+    }
+}
+
+const createUserModel = async () => {
+    try {
+        await qb.schema.createTableIfNotExists('users', (table) => {
+            table.increments('id');
+            table.string('firstName', 50).notNullable();
+            table.string('lastName', 50);
+            table.string('username', 50).notNullable().unique();
+            table.string('password', 100).notNullable();
+            table.string('role', 20).notNullable();
+            table.timestamps();
+        });
+    } catch (error) {
+        registerError('Error creating user model', error);
     } finally {
         qb.destroy();
     }
@@ -59,7 +75,7 @@ const createAppointmentModel = async () =>{
 
 // async for loop
 const createModels = async () => {
-    const models = [createPatientModel, createDoctorModel, createAppointmentModel];
+    const models = [createPatientModel, createDoctorModel, createAppointmentModel, createUserModel];
     for (const model of models) {
         await model();
     }
