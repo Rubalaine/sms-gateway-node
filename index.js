@@ -5,6 +5,8 @@ import cron from 'node-cron';
 import {getPatientsWithPendingAppointmentsInDate, getPatientsWithAppointmentsInDate} from './services/patient-service.js';
 import { termuxSmsGen, termuxSmsSend } from './utils/termux-utils.js';
 import { registerError } from './error-service.js';
+import { app } from './app.js';
+
 
 const TODAY = new Date();
 
@@ -56,3 +58,10 @@ cron.schedule(config.scheduled_appointment.send_at_cron, async () => {
         registerError('Error sending scheduled appointment SMS', error);
     }
 });
+
+try {
+    await app.listen({ port: 3000 })
+  } catch (err) {
+    app.log.error(err)
+    process.exit(1)
+  }
