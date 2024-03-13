@@ -1,4 +1,5 @@
 import { TABLES } from "../utils/constants.js";
+import { getAll, getBy, getById, getMultiple } from "./factory-service.js";
 
 export const getAllAppointments = () => getAll(TABLES.APPOINTMENTS);
 

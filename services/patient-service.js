@@ -1,7 +1,7 @@
 import { registerError } from "../error-service.js";
 import { qb } from "../qb.js";
 import { TABLES } from "../utils/constants.js";
-import { getAll } from "./factory-service.js";
+import { getAll, getById, getMultiple } from "./factory-service.js";
 
 export const getAllPatients = () => getAll(TABLES.PATIENTS);
 

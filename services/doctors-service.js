@@ -1,6 +1,6 @@
 import { registerError } from "../error-service.js";
 import { TABLES } from "../utils/constants.js";
-import { getAll, getById } from "./factory-service.js";
+import { getAll, getById, getMultiple } from "./factory-service.js";
 
 export const getAllDoctors = () => getAll(TABLES.DOCTORS);
 
