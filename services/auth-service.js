@@ -3,7 +3,7 @@ import crypto from 'crypto';
 import { registerError } from '../error-service.js';
 
 
-const cipherKey = crypto.createHash('sha256');
+const cipherKey = crypto.createHash(process.env.HASH_ALGO);
 export const login = async (username, password) => {
     try {
         password = cipherKey.update(password);
