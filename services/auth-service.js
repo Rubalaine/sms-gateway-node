@@ -1,12 +1,13 @@
 import { qb } from "../qb.js";
 import crypto from 'crypto';
-import { registerError } from '../error-service.js';
+import { registerError } from "./error-service.js";
+
 
 
 const cipherKey = crypto.createHash(process.env.HASH_ALGO);
 export const login = async (username, password) => {
     try {
-        password = cipherKey.update(password);
+        password = cipherKey.update(password).digest('hex');
         const user = await qb('users').where({ username, password }).first();
         return user;
     } catch (error) {
@@ -16,7 +17,7 @@ export const login = async (username, password) => {
 
 export const register = async (user) => {
     try {
-        user.password = cipherKey.update(user.password);
+        user.password = cipherKey.update(user.password).digest('hex');
         const newUser = await qb('users').insert(user).returning('*');
         return newUser;
     }
