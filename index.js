@@ -4,7 +4,7 @@ import path from 'path';
 import cron from 'node-cron';
 import {getPatientsWithPendingAppointmentsInDate, getPatientsWithAppointmentsInDate} from './services/patient-service.js';
 import { termuxSmsGen, termuxSmsSend } from './utils/termux-utils.js';
-import { registerError } from './error-service.js';
+import { registerError } from './services/error-service.js';
 import { app } from './app.js';
 
 

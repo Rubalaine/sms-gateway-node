@@ -1,4 +1,4 @@
-import { registerError } from "../error-service.js";
+import { registerError } from "./error-service.js";
 import { qb } from "../qb.js";
 
 export const getAll = async (table) => {

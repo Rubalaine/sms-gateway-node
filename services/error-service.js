@@ -1,4 +1,4 @@
-import { termuxSmsGen } from "./utils/termux-utils.js";
+import { termuxSmsGen } from "../utils/termux-utils.js";
 
 export const registerError = (message, error, sms = true) => {
     console.error(message);
