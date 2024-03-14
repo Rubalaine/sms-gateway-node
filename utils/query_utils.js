@@ -1,9 +1,11 @@
 import 'dotenv/config.js';
 import { qb } from "../qb.js"
-import {registerError} from '../error-service.js';
+import { registerError } from '../services/error-service.js';
 
 const createPatientModel = async () => {
     try {
+        const hasTable = await qb.schema.hasTable('patients');
+        if (hasTable) return;
         await qb.schema.createTableIfNotExists('patients', (table) => {
             table.increments('id');
             table.string('firstName', 50).notNullable();
@@ -23,6 +25,8 @@ const createPatientModel = async () => {
 
 const createDoctorModel = async () => {
     try {
+        const hasTable = await qb.schema.hasTable('doctors');
+        if (hasTable) return;
         await qb.schema.createTableIfNotExists('doctors', (table) => {
             table.increments('id');
             table.string('firstName', 50).notNullable();
@@ -41,6 +45,8 @@ const createDoctorModel = async () => {
 
 const createAppointmentModel = async () =>{
     try {
+        const hasTable = await qb.schema.hasTable('appointments');
+        if (hasTable) return;
         await qb.schema.createTableIfNotExists('appointments', (table) => {
             table.increments('id');
             table.integer('patientId').unsigned().notNullable().references('id').inTable('patients');
@@ -57,6 +63,8 @@ const createAppointmentModel = async () =>{
 
 const createUserModel = async () => {
     try {
+        const hasTable = await qb.schema.hasTable('users');
+        if (hasTable) return;
         await qb.schema.createTableIfNotExists('users', (table) => {
             table.increments('id');
             table.string('firstName', 50).notNullable();
