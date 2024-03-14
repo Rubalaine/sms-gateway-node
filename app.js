@@ -3,13 +3,24 @@ import { getAllPatients, getPatientById } from './services/patient-service.js';
 import {getAllDoctors, getDoctorById} from './services/doctors-service.js';
 import { registerError } from './services/error-service.js';
 import { getUserByUsername } from './services/users-service.js';
-import { login, register } from './services/auth-service.js';
+import { decodeUser, login, register } from './services/auth-service.js';
 
 export const app = Fastify({
-     logger: Boolean(process.env.DEVELOPMENT) 
+    logger: Boolean(process.env.DEVELOPMENT) 
 });
 
-
+app.addHook('onRequest', async (request, reply) => {
+    try {
+        if(request.url === '/login' || request.url === '/register') return;
+        const token = request.headers['authorization'];
+        if(!token) return reply.code(401).send('Unauthorized');
+        const user = await decodeUser(token);
+        if(!user) return reply.code(401).send('Unauthorized');
+        request.user = user;
+    } catch (error) {
+        reply.code(401).send('Unauthorized');
+    }
+});
 app.get('/patients', async (request, reply) => {
     try {
         const patients = await getAllPatients();
@@ -58,7 +69,6 @@ app.post('/login', async (request, reply) => {
         if(!user) return reply.code(403).send('Invalid credentials');
         const userLogin = await login(username, password);
         if(!login) return reply.code(403).send('Invalid credentials');
-        delete userLogin.password;
         reply.code(200).send(userLogin);
     } catch (error) {
         registerError('Error logging in', error);
@@ -69,7 +79,6 @@ app.post('/register', async (request, reply) => {
     try {
         const user = request.body;
         const newUser = await register(user);
-        delete newUser.password;
         reply.code(201).send(newUser);
     } catch (error) {
         registerError('Error registering user', error);
