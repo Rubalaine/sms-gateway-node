@@ -1,12 +1,12 @@
 {
     "scheduled_appointment": {
         "alert_message": "Saudações, esta é uma mensagem de lembrete para a consulta que temos marcada para amanhã. Centro de Chingussura (Dream)",
-        "send_at_cron": "*/5 * * * *",
+        "send_at_cron": "*/56 * * * *",
         "look_for_days": 1
     },
     "delayed_appointment": {
         "alert_message": "Saudações, esta é uma mensage de lembrete para a consulta que tinha marcada para ontem, solicitamos a sua presença. Centro de Chingussura (Dream)",
-        "send_at_cron": "*/2 * * * *",
+        "send_at_cron": "*/60 * * * *",
         "look_for_days": -1
     }
 }

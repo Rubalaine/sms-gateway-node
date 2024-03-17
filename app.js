@@ -1,17 +1,46 @@
 import Fastify from 'fastify';
-import { getAllPatients, getPatientById } from './services/patient-service.js';
+import { getAllPatients, getPatientById,getPatientsWithAppointmentsInDate } from './services/patient-service.js';
 import {getAllDoctors, getDoctorById} from './services/doctors-service.js';
 import { registerError } from './services/error-service.js';
 import { getUserByUsername } from './services/users-service.js';
 import { decodeUser, login, register } from './services/auth-service.js';
+import path from 'path';
+import pug from 'pug';
+const __dirname = path.resolve();
 
 export const app = Fastify({
     logger: Boolean(process.env.DEVELOPMENT) 
 });
 
+app.register(import('@fastify/static'), {
+    root: path.join(__dirname, 'public'),
+    prefix: '/public/',
+});
+app.register(import('@fastify/view'), {
+    engine: {
+        pug: pug
+    },
+    root: path.join(__dirname, 'views'),
+});
+
+app.get('/', async(_, reply) => {
+    const date = new Date().toISOString().split('T')[0];
+    const appointments = await getAllPatients();
+    return reply.view('index', {appointments} );
+});
+app.get('/login', (_, reply) => {
+    reply.view('login');
+});
+
 app.addHook('onRequest', async (request, reply) => {
     try {
-        if(request.url === '/login' || request.url === '/register') return;
+        if(
+            request.url === '/login' 
+            || request.url === '/register' 
+            || request.url === "/"
+            || request.url.startsWith('/public')
+            ) 
+                return;
         const token = request.headers['authorization'];
         if(!token) return reply.code(401).send('Unauthorized');
         const user = await decodeUser(token);
@@ -59,6 +88,18 @@ app.get('/doctors/:id', async (request, reply) => {
     } catch (error) {
         registerError('Error getting doctor', error);
         reply.code(500).send('Error getting doctor');
+    }
+});
+
+app.get('/appointments/dated/:date', async (request, reply) => {
+    try {
+        const date = request.params.date;
+        if(!date) return reply.code(400).send('Date is required');
+        const appointments = await getPatientsWithAppointmentsInDate(date);
+        reply.code(200).send(appointments);
+    } catch (error) {
+        registerError('Error getting appointments', error);
+        reply.code(500).send('Error getting appointments');
     }
 });
 
