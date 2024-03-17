@@ -1,0 +1,9 @@
+extends base
+block content
+  h1= title
+  p Welcome to #{title}
+  p This is the home page
+  - if (appointments)
+    ul
+      each appointment, i in appointments
+        li= appointment.id
