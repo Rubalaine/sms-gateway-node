@@ -11,7 +11,14 @@ export const getMultiplePatients = (ids) => getMultiple(TABLES.PATIENTS, ids);
 
 export const getPatientsWithAppointmentsInDate = async (date) => {
     try {
-        const patients = await qb(TABLES.PATIENTS).join(TABLES.APPOINTMENTS, `${TABLES.PATIENTS}.id`, `${TABLES.APPOINTMENTS}.patientId`).where(`${TABLES.APPOINTMENTS}.appointmentDate`, date).select(`${TABLES.PATIENTS}.*`);
+        const patients = await qb(TABLES.PATIENTS)
+        .join(TABLES.APPOINTMENTS, `${TABLES.PATIENTS}.id`, `${TABLES.APPOINTMENTS}.patientId`)
+        .where(`${TABLES.APPOINTMENTS}.appointmentDate`, date)
+        .select(
+            `${TABLES.PATIENTS}.*`
+            ,`${TABLES.APPOINTMENTS}.status`
+            ,`${TABLES.APPOINTMENTS}.appointmentDate`
+        );
         return patients;
     } catch (error) {
         registerError('Error getting patients with appointments in date', error);
