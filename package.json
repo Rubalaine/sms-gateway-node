@@ -7,18 +7,24 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "pre:install": "node ./utils/query_utils.js"
+    "pre:install": "node ./utils/query_utils.js",
+    "dev": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@fastify/static": "^7.0.1",
+    "@fastify/view": "^9.0.0",
     "dotenv": "^16.4.5",
     "fastify": "^4.26.2",
     "jsonwebtoken": "^9.0.2",
     "knex": "^3.1.0",
     "node-cron": "^3.0.3",
-    "pg": "^8.11.3"
+    "pg": "^8.11.3",
+    "pug": "^3.0.2"
+  },
+  "devDependencies": {
     "eslint": "^8.57.0",
     "nodemon": "^3.1.0"
   }
