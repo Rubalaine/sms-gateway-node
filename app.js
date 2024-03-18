@@ -4,33 +4,13 @@ import {getAllDoctors, getDoctorById} from './services/doctors-service.js';
 import { registerError } from './services/error-service.js';
 import { getUserByUsername } from './services/users-service.js';
 import { decodeUser, login, register } from './services/auth-service.js';
-import path from 'path';
-import pug from 'pug';
-const __dirname = path.resolve();
+
 
 export const app = Fastify({
     logger: Boolean(process.env.DEVELOPMENT) 
 });
 
-app.register(import('@fastify/static'), {
-    root: path.join(__dirname, 'public'),
-    prefix: '/public/',
-});
-app.register(import('@fastify/view'), {
-    engine: {
-        pug: pug
-    },
-    root: path.join(__dirname, 'views'),
-});
 
-app.get('/', async(_, reply) => {
-    const date = new Date().toISOString().split('T')[0];
-    const appointments = await getAllPatients();
-    return reply.view('index', {appointments} );
-});
-app.get('/login', (_, reply) => {
-    reply.view('login');
-});
 
 app.addHook('onRequest', async (request, reply) => {
     try {
