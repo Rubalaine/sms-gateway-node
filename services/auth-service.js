@@ -20,7 +20,7 @@ export const login = async (username, password) => {
 export const register = async (user) => {
     try {
         user.password = cipherKey.update(user.password).digest('hex');
-        const newUser = await qb('users').insert(user).returning('*');
+        const newUser = await qb('users').insert(user).returning('*')[0];
         delete newUser.password;
         newUser.token = generateToken(newUser);
         return newUser;
