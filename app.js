@@ -4,13 +4,15 @@ import {getAllDoctors, getDoctorById} from './services/doctors-service.js';
 import { registerError } from './services/error-service.js';
 import { getUserByUsername } from './services/users-service.js';
 import { decodeUser, login, register } from './services/auth-service.js';
-
+import cors from '@fastify/cors';
 
 export const app = Fastify({
     logger: Boolean(process.env.DEVELOPMENT) 
 });
 
-
+app.register(cors, {
+    origin: '*'
+});
 
 app.addHook('onRequest', async (request, reply) => {
     try {
@@ -87,7 +89,8 @@ app.post('/login', async (request, reply) => {
     try {
         const {username, password} = request.body;
         const user = await getUserByUsername(username);
-        if(!user) return reply.code(403).send('Invalid credentials');
+        console.log(user);
+        if(!user.length) return reply.code(403).send('Invalid credentials');
         const userLogin = await login(username, password);
         if(!login) return reply.code(403).send('Invalid credentials');
         reply.code(200).send(userLogin);
