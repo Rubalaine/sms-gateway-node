@@ -41,23 +41,23 @@ cron.schedule(config.delayed_appointment.send_at_cron, async () => {
 });
 
 // scheduled appintments
-cron.schedule(config.scheduled_appointment.send_at_cron, async () => {
-    try {
-        const alertDate = new Date(TODAY)
-        alertDate.setDate(TODAY.getDate() + config.scheduled_appointment.look_for_days);
-        const patients = await getPatientsWithPendingAppointmentsInDate(alertDate);
-        console.log(patients.length);
-        if(patients.length){
-            console.log(`[${new Date().toISOString()}] Sending scheduled appointment SMS`);
-            const message = config.scheduled_appointment.alert_message;
-            const numbers = patients.map(patient => patient.phoneNumber);
-            const content = termuxSmsGen(message, numbers);
-            termuxSmsSend(content);
-        }
-    } catch (error) {
-        registerError('Error sending scheduled appointment SMS', error);
-    }
-});
+// cron.schedule(config.scheduled_appointment.send_at_cron, async () => {
+//     try {
+//         const alertDate = new Date(TODAY)
+//         alertDate.setDate(TODAY.getDate() + config.scheduled_appointment.look_for_days);
+//         const patients = await getPatientsWithPendingAppointmentsInDate(alertDate);
+//         console.log(patients.length);
+//         if(patients.length){
+//             console.log(`[${new Date().toISOString()}] Sending scheduled appointment SMS`);
+//             const message = config.scheduled_appointment.alert_message;
+//             const numbers = patients.map(patient => patient.phoneNumber);
+//             const content = termuxSmsGen(message, numbers);
+//             termuxSmsSend(content);
+//         }
+//     } catch (error) {
+//         registerError('Error sending scheduled appointment SMS', error);
+//     }
+// });
 
 try {
     await app.listen({ port: 3000, host: '0.0.0.0' })
