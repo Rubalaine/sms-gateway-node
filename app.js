@@ -1,5 +1,5 @@
 import Fastify from 'fastify';
-import { getAllPatients, getPatientById,getPatientsWithAppointmentsInDate } from './services/patient-service.js';
+import { getAllPatients, getPatientById,getPatientsWithAppointmentsInDate, getPatientsWithAppointmentsInDateRange } from './services/patient-service.js';
 import {getAllDoctors, getDoctorById} from './services/doctors-service.js';
 import { registerError } from './services/error-service.js';
 import { getUserByUsername } from './services/users-service.js';
@@ -84,7 +84,19 @@ app.get('/appointments/dated/:date', async (request, reply) => {
         reply.code(500).send('Error getting appointments');
     }
 });
-
+// get ranged appointmnents
+app.get('/appointments/ranged/:start/:end', async (request, reply) => {
+    try {
+        const start = request.params.start;
+        const end = request.params.end;
+        if(!start || !end) return reply.code(400).send('Start and end dates are required');
+        const appointments = await getPatientsWithAppointmentsInDateRange(start, end);
+        reply.code(200).send(appointments);
+    } catch (error) {
+        registerError('Error getting appointments', error);
+        reply.code(500).send('Error getting appointments');
+    }
+});
 app.post('/login', async (request, reply) => {
     try {
         const {username, password} = request.body;

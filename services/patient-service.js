@@ -24,6 +24,21 @@ export const getPatientsWithAppointmentsInDate = async (date) => {
         registerError('Error getting patients with appointments in date', error);
     }
 }
+export const getPatientsWithAppointmentsInDateRange = async (start, end) => {
+    try {
+        const patients = await qb(TABLES.PATIENTS)
+        .join(TABLES.APPOINTMENTS, `${TABLES.PATIENTS}.id`, `${TABLES.APPOINTMENTS}.patientId`)
+        .whereBetween(`${TABLES.APPOINTMENTS}.appointmentDate`, [start, end])
+        .select(
+            `${TABLES.PATIENTS}.*`
+            ,`${TABLES.APPOINTMENTS}.status`
+            ,`${TABLES.APPOINTMENTS}.appointmentDate`
+        );
+        return patients;
+    } catch (error) {
+        registerError('Error getting patients with appointments in date range', error);
+    }
+}
 export const getPatientsWithPendingAppointmentsInDate = async (date) => {
     try {
         const patients = await qb(TABLES.PATIENTS).join(TABLES.APPOINTMENTS, `${TABLES.PATIENTS}.id`, `${TABLES.APPOINTMENTS}.patientId`).where(`${TABLES.APPOINTMENTS}.appointmentDate`, date).andWhere(`${TABLES.APPOINTMENTS}.status`, 'PENDING').select(`${TABLES.PATIENTS}.*`);
