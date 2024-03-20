@@ -14,7 +14,7 @@ const createPatientModel = async () => {
             table.enu('gender', ['M', 'F']);
             table.string('address', 100);
             table.string('phoneNumber', 25);
-            table.timestamps().defaultTo(qb.fn.now());
+            table.timestamps();
         });
     } catch (error) {
         registerError('Error creating patient model', error);
@@ -34,7 +34,7 @@ const createDoctorModel = async () => {
             table.date('dob');
             table.string('specialty', 50);
             table.string('phoneNumber', 25);
-            table.timestamps().defaultTo(qb.fn.now());
+            table.timestamps();
         });
     } catch (error) {
         registerError('Error creating doctor model', error);
@@ -54,7 +54,7 @@ const createAppointmentModel = async () =>{
             table.date('appointmentDate').notNullable();
             table.string('reason', 100);
             table.enu('status', ['PENDING', 'COMPLETED', 'CANCELLED'])
-            table.timestamps().defaultTo(qb.fn.now());
+            table.timestamps();
         })
     } catch (error) {
         registerError('Error creating appointment model', error);
@@ -72,7 +72,7 @@ const createUserModel = async () => {
             table.string('username', 50).notNullable().unique();
             table.string('password', 100).notNullable();
             table.string('role', 20).notNullable();
-            table.timestamps().defaultTo(qb.fn.now());
+            table.timestamps();
         });
     } catch (error) {
         registerError('Error creating user model', error);
