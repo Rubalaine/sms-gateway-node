@@ -85,9 +85,9 @@ const createConfigModel = async () => {
         if (hasTable) return;
         await qb.schema.createTable('config', (table) => {
             table.increments('id');
-            table.time('scheduled_time');
+            table.string('scheduled_time', 8);
             table.string('scheduled_message', 200);
-            table.time('delayed_time');
+            table.string('delayed_time', 8);
             table.string('delayed_message', 200);
             table.timestamps(true, true);
         });
