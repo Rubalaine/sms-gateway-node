@@ -1,5 +1,6 @@
 export const TABLES = {
     DOCTORS: 'doctors',
     PATIENTS: 'patients',
-    APPOINTMENTS: 'appointments'
+    APPOINTMENTS: 'appointments',
+    CONFIG: 'config'
 }
