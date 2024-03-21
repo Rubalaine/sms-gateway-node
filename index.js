@@ -39,7 +39,7 @@ cron.schedule(config.delayed_appointment.send_at_cron, async () => {
         registerError('Error sending delayed appointment SMS', error);
     }
 });
-
+// TODO: IMPLEMENTAR UM DEFAULT CRON JOB QUE VAI RODAR A CADA X TEMPO E VERIFICA A EXISTENCIA DE NOVA CONFIGURAÇÃO, SE EXISTE UMA NOVA CONFIGURAÇÃO, PARA OS CRON JOBS FILHOS E INICIA NOVAMENTE COM A NOVA CONFIGURAÇÃO
 // scheduled appintments
 // cron.schedule(config.scheduled_appointment.send_at_cron, async () => {
 //     try {

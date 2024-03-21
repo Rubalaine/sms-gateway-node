@@ -5,6 +5,7 @@ import { registerError } from './services/error-service.js';
 import { getUserByUsername } from './services/users-service.js';
 import { decodeUser, login, register } from './services/auth-service.js';
 import cors from '@fastify/cors';
+import { getConfig, updateConfig } from './services/config-service.js';
 
 export const app = Fastify({
     logger: Boolean(process.env.DEVELOPMENT) 
@@ -97,6 +98,28 @@ app.get('/appointments/ranged/:start/:end', async (request, reply) => {
         reply.code(500).send('Error getting appointments');
     }
 });
+
+// config
+app.get('/config', async (request, reply) => {
+    try {
+        const config = await getConfig();
+        reply.code(200).send(config || {});
+    } catch (error) {
+        registerError('Error getting config', error);
+    }
+});
+
+app.put('/config', async (request, reply) => {
+    try {
+        const config = request.body;
+        console.table(config);
+        await updateConfig(config);
+        reply.code(204).send();
+    } catch (error) {
+        registerError('Error updating config', error);
+    }
+});
+
 app.post('/login', async (request, reply) => {
     try {
         const {username, password} = request.body;
