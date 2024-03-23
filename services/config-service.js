@@ -12,8 +12,9 @@ export const getConfig = async () => {
 };
 export const updateConfig = async (config) => {
     try {
-        if(config?.id){
-           return await qb(TABLES.CONFIG).update(config).where('id', config.id);
+        const oldConfig = await getConfig();
+        if(oldConfig){
+           return await qb(TABLES.CONFIG).update(config).where('id', oldConfig.id);
         }
         return await qb(TABLES.CONFIG).insert(config);
     } catch (error) {
