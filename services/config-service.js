@@ -4,7 +4,7 @@ import { registerError } from "./error-service.js";
 
 export const getConfig = async () => {
     try {
-        const config = await qb(TABLES.CONFIG).first();
+        const config = await qb(TABLES.CONFIG).orderBy('id', 'asc').first();
         return config;
     } catch (error) {
         registerError('Error getting config', error)
