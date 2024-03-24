@@ -20,12 +20,15 @@ cron.schedule('* * * * *', async() => {
         const delayed_expression = genExpression(config.delayed_time);
         console.log(`[${new Date().toISOString()}] Scheduled cron: ${scheduled_expression} | Delayed cron: ${delayed_expression}`);
         cron.schedule(scheduled_expression, async () => {
-            await sendScheduledMessages(config.scheduled_appointment.alert_message);
+            await sendScheduledMessages(config.scheduled_message);
+            
         }, {
             name: CRONS.SCHEDULED
         });
         cron.schedule(delayed_expression, async () => {
-            await sendDelayedMessages(config.delayed_appointment.alert_message);
+            console.log('...')
+            await sendDelayedMessages(config.delayed_message);
+            
         },{
             name: CRONS.DELAYED
         });
