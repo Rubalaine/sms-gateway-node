@@ -90,6 +90,7 @@ const createConfigModel = async () => {
             table.string('delayed_time', 8);
             table.string('delayed_message', 200);
             table.timestamps(true, true);
+            table.timestamp('read_at');
         });
     } catch (error) {
         registerError('Error creating config model', error);
