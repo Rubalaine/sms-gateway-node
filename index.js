@@ -1,63 +1,41 @@
 import 'dotenv/config.js';
-import fs from 'fs';
-import path from 'path';
 import cron from 'node-cron';
-import {getPatientsWithPendingAppointmentsInDate, getPatientsWithAppointmentsInDate} from './services/patient-service.js';
-import { termuxSmsGen, termuxSmsSend } from './utils/termux-utils.js';
-import { registerError } from './services/error-service.js';
 import { app } from './app.js';
+import {  getConfigAndMarkAsRead } from './services/config-service.js';
+import { genExpression } from './utils/cron-util.js';
+import { sendDelayedMessages, sendScheduledMessages } from './services/sms-service.js';
+import { CRONS } from './utils/constants.js';
+
+let firstStarted = false;
 
 
-const TODAY = new Date();
+// cron for each minute
+cron.schedule('* * * * *', async() => {
+    const config = await getConfigAndMarkAsRead();
+    if(!config) return;
+    if(!firstStarted || !config?.read_at || config.updated_at > config.read_at){
 
-
-const __dirname = path.resolve();
-
-let config;
-try {
-     config = JSON.parse(fs.readFileSync(path.join(__dirname, 'config.json'), 'utf-8'));
-} catch (error) {
-    registerError('Error reading config file', error);
-    process.exit(1);
-}
-
-// delayed appointments
-cron.schedule(config.delayed_appointment.send_at_cron, async () => {
-    try {
-        const alertDate = new Date(TODAY)
-        alertDate.setDate(TODAY.getDate() + config.delayed_appointment.look_for_days);
-        const patients = await getPatientsWithPendingAppointmentsInDate(alertDate);
-        console.log(patients.length);
-        if(patients.length){
-            console.log(`[${new Date().toISOString()}] Sending delayed appointment SMS`);
-            const message = config.delayed_appointment.alert_message;
-            const numbers = patients.map(patient => patient.phoneNumber);
-            const content = termuxSmsGen(message, numbers);
-            termuxSmsSend(content);
-        }
-    } catch (error) {
-        registerError('Error sending delayed appointment SMS', error);
-    }
+        console.log(`[${new Date().toISOString()}] Config file updated`);
+        const scheduled_expression = genExpression(config.scheduled_time);
+        const delayed_expression = genExpression(config.delayed_time);
+        console.log(`[${new Date().toISOString()}] Scheduled cron: ${scheduled_expression} | Delayed cron: ${delayed_expression}`);
+        cron.schedule(scheduled_expression, async () => {
+            await sendScheduledMessages(config.scheduled_appointment.alert_message);
+        }, {
+            name: CRONS.SCHEDULED
+        });
+        cron.schedule(delayed_expression, async () => {
+            await sendDelayedMessages(config.delayed_appointment.alert_message);
+        },{
+            name: CRONS.DELAYED
+        });
+        firstStarted = true;
+    } 
+}, {
+    name: CRONS.DEFAULT
 });
-// TODO: IMPLEMENTAR UM DEFAULT CRON JOB QUE VAI RODAR A CADA X TEMPO E VERIFICA A EXISTENCIA DE NOVA CONFIGURAÇÃO, SE EXISTE UMA NOVA CONFIGURAÇÃO, PARA OS CRON JOBS FILHOS E INICIA NOVAMENTE COM A NOVA CONFIGURAÇÃO
-// scheduled appintments
-// cron.schedule(config.scheduled_appointment.send_at_cron, async () => {
-//     try {
-//         const alertDate = new Date(TODAY)
-//         alertDate.setDate(TODAY.getDate() + config.scheduled_appointment.look_for_days);
-//         const patients = await getPatientsWithPendingAppointmentsInDate(alertDate);
-//         console.log(patients.length);
-//         if(patients.length){
-//             console.log(`[${new Date().toISOString()}] Sending scheduled appointment SMS`);
-//             const message = config.scheduled_appointment.alert_message;
-//             const numbers = patients.map(patient => patient.phoneNumber);
-//             const content = termuxSmsGen(message, numbers);
-//             termuxSmsSend(content);
-//         }
-//     } catch (error) {
-//         registerError('Error sending scheduled appointment SMS', error);
-//     }
-// });
+
+
 
 try {
     await app.listen({ port: 3000, host: '0.0.0.0' })
