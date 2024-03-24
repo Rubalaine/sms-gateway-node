@@ -10,11 +10,22 @@ export const getConfig = async () => {
         registerError('Error getting config', error)
     }
 };
+export const getConfigAndMarkAsRead = async () => {
+    try {
+        const config = await getConfig();
+        if(config){
+            await qb(TABLES.CONFIG).update({read_at: new Date()}).where('id', config.id);
+        }
+        return config;
+    } catch (error) {
+        registerError('Error getting config and marking as read', error);
+    }
+};
 export const updateConfig = async (config) => {
     try {
         const oldConfig = await getConfig();
         if(oldConfig){
-           return await qb(TABLES.CONFIG).update(config).where('id', oldConfig.id);
+           return await qb(TABLES.CONFIG).update({...config, updated_at: new Date()}).where('id', oldConfig.id);
         }
         return await qb(TABLES.CONFIG).insert(config);
     } catch (error) {
