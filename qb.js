@@ -3,7 +3,7 @@ import  Knex  from 'knex';
 
 export const qb = Knex({
     client: process.env.DATABASE_CLIENT,
-    debug: Boolean(process.env.DEVELOPMENT),
+    debug: Boolean(process.env.DEVELOPMENT * 1),
     connection: {
         host: process.env.DATABASE_HOST,
         user: process.env.DATABASE_USER,
