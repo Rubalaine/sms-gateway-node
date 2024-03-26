@@ -6,6 +6,7 @@ import { getUserByUsername } from './services/users-service.js';
 import { decodeUser, login, register } from './services/auth-service.js';
 import cors from '@fastify/cors';
 import { getConfig, updateConfig } from './services/config-service.js';
+import { loadAndStartConfig } from './utils/config-utils.js';
 
 export const app = Fastify({
     logger: Boolean(process.env.DEVELOPMENT) 
@@ -112,8 +113,8 @@ app.get('/config', async (request, reply) => {
 app.put('/config', async (request, reply) => {
     try {
         const config = request.body;
-        console.table(config);
         await updateConfig(config);
+        await loadAndStartConfig();
         reply.code(204).send();
     } catch (error) {
         registerError('Error updating config', error);
