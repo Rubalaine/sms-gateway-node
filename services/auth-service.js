@@ -1,13 +1,13 @@
 import { qb } from "../qb.js";
-import bcrypt from 'bcrypt';
 import { registerError } from "./error-service.js";
 import jwt from "jsonwebtoken";
+import myCrypto from "../utils/crypto-utils.js";
 
 export const login = async (username, password) => {
     try {
         const user = await qb('users').where({ username }).first();
         if(!user) return null;
-        const isMatch = await bcrypt.compare(password, user.password);
+        const isMatch = myCrypto.comparePassword(password, user.password);
         if(!isMatch) return null;
         delete user.password; 
         user.token = generateToken(user);
@@ -19,13 +19,14 @@ export const login = async (username, password) => {
 
 export const register = async (user) => {
     try {
-        const passwordHash = await bcrypt.hash(user.password, 10);
+        const passwordHash = myCrypto.hashPassword(user.password, 10);
         user.password = passwordHash;
         console.table(user);
         const newUser = await qb('users').insert(user).returning('*');
-        console.table(newUser);
-        newUser[0].token = generateToken(newUser[0]);
-        return newUser[0];
+        const senUser = newUser[0];
+        senUser.password = undefined;
+        senUser.token = generateToken(senUser);
+        return senUser;
     }
     catch (error) {
         registerError('Error registering user', error);
