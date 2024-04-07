@@ -1,4 +1,6 @@
+import { APPOINTMENT_STATUS } from "../utils/constants.js";
 import { termuxSmsGen, termuxSmsSend } from "../utils/termux-utils.js";
+import { markAsCompleted } from "./appoitments-service.js";
 import { registerError } from "./error-service.js";
 import { getPatientsWithPendingAppointmentsInDate } from "./patient-service.js";
 
@@ -14,6 +16,7 @@ export const sendDelayedMessages = async (message) =>{
             const numbers = patients.map(patient => patient.phoneNumber);
             const content = termuxSmsGen(message, numbers);
             termuxSmsSend(content);
+            await markAsCompleted(patients.map(patient => patient.appointmentId));
         }
     } catch (error) {
         registerError('Error sending delayed appointment SMS', error);
@@ -32,6 +35,7 @@ export const sendScheduledMessages = async (message) => {
             const numbers = patients.map(patient => patient.phoneNumber);
             const content = termuxSmsGen(message, numbers);
             termuxSmsSend(content);
+            await markAsCompleted(patients.map(patient => patient.appointmentId));
         }
     } catch (error) {
         registerError('Error sending scheduled appointment SMS', error);

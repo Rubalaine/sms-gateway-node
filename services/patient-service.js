@@ -18,6 +18,7 @@ export const getPatientsWithAppointmentsInDate = async (date) => {
             `${TABLES.PATIENTS}.*`
             ,`${TABLES.APPOINTMENTS}.status`
             ,`${TABLES.APPOINTMENTS}.appointmentDate`
+            ,`${TABLES.APPOINTMENTS}.id as appointmentId`
         );
         return patients;
     } catch (error) {
@@ -33,6 +34,7 @@ export const getPatientsWithAppointmentsInDateRange = async (start, end) => {
             `${TABLES.PATIENTS}.*`
             ,`${TABLES.APPOINTMENTS}.status`
             ,`${TABLES.APPOINTMENTS}.appointmentDate`
+            ,`${TABLES.APPOINTMENTS}.id as appointmentId`
         );
         return patients;
     } catch (error) {
@@ -41,7 +43,17 @@ export const getPatientsWithAppointmentsInDateRange = async (start, end) => {
 }
 export const getPatientsWithPendingAppointmentsInDate = async (date) => {
     try {
-        const patients = await qb(TABLES.PATIENTS).join(TABLES.APPOINTMENTS, `${TABLES.PATIENTS}.id`, `${TABLES.APPOINTMENTS}.patientId`).where(`${TABLES.APPOINTMENTS}.appointmentDate`, date).andWhere(`${TABLES.APPOINTMENTS}.status`, 'PENDING').select(`${TABLES.PATIENTS}.*`);
+        const patients = await qb(TABLES.PATIENTS)
+        .join(
+            TABLES.APPOINTMENTS
+            ,`${TABLES.PATIENTS}.id`
+            ,`${TABLES.APPOINTMENTS}.patientId`)
+        .where(`${TABLES.APPOINTMENTS}.appointmentDate`, date)
+        .andWhere(`${TABLES.APPOINTMENTS}.status`, 'PENDING')
+        .select(
+            `${TABLES.PATIENTS}.*`
+            ,`${TABLES.APPOINTMENTS}.id as appointmentId`
+        );
         return patients;
     } catch (error) {
         registerError('Error getting patients with pending appointments in date', error);
