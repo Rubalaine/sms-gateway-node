@@ -36,3 +36,11 @@ export const getBy = async (table, column, value) => {
         registerError(`Error getting ${table} by ${column}`, error);
     }
 }
+export const updateMultiple = async (table, ids, data) => {
+    try {
+        const updated = await qb(table).whereIn('id', ids).update(data);
+        return updated;
+    } catch (error) {
+        registerError(`Error updating multiple ${table}`, error);
+    }
+}
