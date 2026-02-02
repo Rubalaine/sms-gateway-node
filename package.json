@@ -16,7 +16,7 @@
   "dependencies": {
     "@fastify/cors": "^9.0.1",
     "dotenv": "^16.4.5",
-    "fastify": "^4.26.2",
+    "fastify": "^5.7.3",
     "jsonwebtoken": "^9.0.2",
     "knex": "^3.1.0",
     "node-cron": "^3.0.3",
